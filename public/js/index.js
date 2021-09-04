@@ -1,5 +1,3 @@
-// import { LeaderLine } from './leader-line.min.js';
-
 var width = $(window).width(); 
 window.onscroll = function(){
     if ((width >= 720)){
@@ -71,8 +69,8 @@ function closemagnify(){
 setTimeout(function(){
     $("#loading").addClass("animated fadeOut");
     setTimeout(function(){
-      $("#loading").removeClass("animated fadeOut");
-      $("#loading").css("display","none");
+        $("#loading").removeClass("animated fadeOut");
+        $("#loading").css("display","none");
     },800);
 },1650);
 
@@ -81,63 +79,44 @@ function contact(event) {
     event.preventDefault(); 
     console.log("Launching external application for email");
 
-    reqForm = document.forms.Email_form;
+    let reqForm = document.forms.Email_form;
 
     console.log(reqForm.elements.length);
 
-    kvpairs_json = {};
-    
-    // data = new FormData();
+    let kvpairs_json = {};
 
-    for (var i = 0; i < reqForm.elements.length; i++){
-        var e = reqForm.elements[i];
-        console.log(e);
-        var fieldName = e.name;
-        var fieldValue = e.value;
-        kvpairs_json[fieldName] = fieldValue;
-        console.log(fieldName, fieldValue);
+    for (let element of reqForm.elements){
+        kvpairs_json[element.name] = element.value;
     }
 
     console.log(JSON.stringify(kvpairs_json));
-
-    var messageBody = "Email from Website : %0D%0A";
-    messageBody += kvpairs_json.contacter_name + " has sent a message about : %0D%0A";
-    messageBody += kvpairs_json.contacter_message + "%0D%0A";
-    messageBody += "Raw Message : %0D%0A";
-    messageBody += JSON.stringify(kvpairs_json);
-
-    window.location.href = 
-        'mailto:tabbas97@gmail.com&subject=' + 
-        'Email - Website from : ' + kvpairs_json.contacter_name +
-        '&body=' + messageBody
-        ;
     
-    return;
+    emailjs.send(
+        "service_jza18pk",
+        "template_46j14v5",
+        {
+            "from_name":kvpairs_json.contacter_name,
+            "to_name":"Thameem Abbas",
+            "message":kvpairs_json.contacter_message,
+            "reply_to":kvpairs_json.contacter_email
+        },
+        "user_KPf3LlaPrL4VzgeBUZfbE"
+    );
 }
 
-// var form = document.getElementById("Email_form")[0];
-// form.addEventListener('click',contact);
 var SendButton = document.getElementById("Email_send");
 SendButton.addEventListener('click',contact);
 
-
 $(document).ready(function(){
     $("a").on('click', function(event) {
-      if (this.hash !== "") {
-        event.preventDefault();
-        var hash = this.hash;
-        $('body,html').animate({
-        scrollTop: $(hash).offset().top
-        }, 1800, function(){
-        window.location.hash = hash;
-       });
-       } 
-      });
-  });
-
-// new LeaderLine(
-    // document.getElementById('d1'),
-    // document.getElementById('d2')
-// );
-
-  
+        if (this.hash !== "") {
+            event.preventDefault();
+            var hash = this.hash;
+            $('body,html').animate({
+                scrollTop: $(hash).offset().top
+            }, 1800, function(){
+                window.location.hash = hash;
+            });
+        } 
+    });
+});
