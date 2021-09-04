@@ -102,6 +102,8 @@ function contact(event) {
         },
         "user_KPf3LlaPrL4VzgeBUZfbE"
     );
+
+    document.getElementById("Email_form").reset();
 }
 
 var SendButton = document.getElementById("Email_send");
